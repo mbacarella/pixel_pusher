@@ -22,7 +22,7 @@
 open Core
 open Async
 
-module Color = Color
+module Color = Pp_color
 
 module Controller_report : sig
   type t =

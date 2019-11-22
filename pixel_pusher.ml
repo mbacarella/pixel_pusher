@@ -7,6 +7,8 @@ let command_port = 9897
 (* magic numbers to reset the pixel pusher *)
 let _reset_command = [| 0x40; 0x09; 0x2d; 0xa6; 0x15; 0xa5; 0xdd; 0xe5; 0x6a; 0x9d; 0x4d; 0x5a; 0xcf; 0x09; 0xaf; 0x50; 0x01 |]
 
+module Color = Pp_color
+
 module Beacon = struct
   module Strip_info = struct
     type t =
@@ -192,8 +194,6 @@ module Pusher_state = struct
     if List.length drop > 0 then
       update ()
 end
-
-module Color = Color
 
 let send_now_or_soon pusher sendfun =
   let beacon = pusher.Pusher_state.beacon in
