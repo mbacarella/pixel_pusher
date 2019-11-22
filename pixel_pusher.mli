@@ -39,9 +39,10 @@ module Strip : sig
       ; controller_id : int
       ; group_id : int
       ; matrix : Color.t Array.t }
+  (* [set_pixel strip ~color ~index] sets the pixel connected to strip,
+     at offset [index], to the [color]. *)
   val set_pixel : t -> color:Color.t -> index:int -> unit
 end
-
 
 type non_async_token
 
@@ -61,8 +62,8 @@ val get_strips : unit -> Strip.t list
 val get_strips_as_map : unit -> (int * int, Strip.t) Map.Poly.t
 
 (* [send_updates ()] instructs the subsystem to release any pending updates.
-   Do this every time you've finished creating your "frame".  Use this
-   from pure-Async applications. *)
+   Do this after you've finished setting up your "frame" with [Strip.set_pixel]
+   calls. *)
 val send_updates : unit -> unit Deferred.t
 
 (* Same as above, but for calling from non-Async contexts. *)
