@@ -22,6 +22,8 @@
 open Core
 open Async
 
+module Color = Color
+
 module Controller_report : sig
   type t =
       { controller_id : int
@@ -39,6 +41,7 @@ module Strip : sig
       ; matrix : Color.t Array.t }
   val set_pixel : t -> color:Color.t -> index:int -> unit
 end
+
 
 type non_async_token
 

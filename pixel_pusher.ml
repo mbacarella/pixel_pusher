@@ -193,6 +193,8 @@ module Pusher_state = struct
       update ()
 end
 
+module Color = Color
+
 let send_now_or_soon pusher sendfun =
   let beacon = pusher.Pusher_state.beacon in
   let ip = beacon.Beacon.ip_address in
