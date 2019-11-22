@@ -22,7 +22,7 @@ Using
 Add `pixel_pusher` to your dune config libraries stanza.
 
 You can look at the
-https://github.com/mbacarella/kindredspirit/kindredspirit.ml project for an
+https://github.com/mbacarella/kindredspirit/ project for an
 example of real-world usage.
 
 Bugs
