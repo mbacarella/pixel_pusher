@@ -2,7 +2,7 @@ opam-version: "2.0"
 version: "1.0"
 synopsis: "Control LED strips on Pixel Pusher hardware"
 description: """
-Drives Pixel Pusher hardware modules over UDP/IP networks
+Light up LED strips by driving Pixel Pusher hardware modules over UDP/IP networks
 """
 maintainer: "Michael Bacarella <michael.bacarella@gmail.com>"
 authors: ["Michael Bacarella <michael.bacarella@gmail.com>"]
