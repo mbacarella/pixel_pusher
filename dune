@@ -1,0 +1,4 @@
+(library
+  (name pixel_pusher)
+  (libraries async_udp bitstring)
+  (preprocess (pps ppx_jane bitstring.ppx)))
