@@ -185,34 +185,38 @@ module Pusher_state = struct
 	then (key, data.socket) :: acc
 	else acc)
     in
+    (*
     List.iter drop ~f:(fun (key, socket) ->
       printf "*** Forgetting about Pixel Pusher %s, hasn't been seen in awhile (>%s)\n%!"
 	key (Time.Span.to_string threshold);
       (* Wait 10s to close the socket, just in case we have packets queued *)
       don't_wait_for (Clock.after (sec 10.) >>| fun () -> Core.Unix.close socket);
       Hashtbl.remove known_pushers key);
+    *)
     if List.length drop > 0 then
       update ()
 end
 
 let send_now_or_soon pusher sendfun =
-  let beacon = pusher.Pusher_state.beacon in
-  let ip = beacon.Beacon.ip_address in
+  (*let beacon = pusher.Pusher_state.beacon in*)
+  (*let ip = beacon.Beacon.ip_address in*)
   let update_period = pusher.Pusher_state.beacon.Beacon.update_period in
   let run_at = Time.add pusher.Pusher_state.last_command update_period in
   if Time.(<) run_at (Time.now ()) then begin
     pusher.Pusher_state.last_command <- Time.now ();
     sendfun ()
   end else begin
+    (*
     let overrun_span = sec 0.1 in
     if Time.Span.(>) (Time.diff run_at (Time.now ())) overrun_span then
       printf "*** PP %s next command scheduled for >%s in the future %s vs %s: update_period: %s; dropping\n"
 	ip (Time.Span.to_string overrun_span) (Time.now () |> Time.to_string) (Time.to_string run_at)
 	(Time.Span.to_string update_period)
     else begin
+    *)
       pusher.Pusher_state.last_command <- run_at;
       don't_wait_for (Clock.at run_at >>| sendfun)
-    end
+    (*end*)
   end
 
 let send_pixels_to_pushers () =
@@ -318,13 +322,13 @@ let get_strips_as_map () =
   !Pusher_state.strips_map
 
 let start_discovery_listener () =
-  printf "*** Starting Pixel Pusher listener on port %d...\n%!" discovery_port;
+  (*printf "*** Starting Pixel Pusher listener on port %d...\n%!" discovery_port;*)
   let addr = `Inet (Unix.Inet_addr.bind_any, discovery_port) in
   let socket = Async_udp.bind addr in
   let fd = Socket.fd socket in
   Async_udp.recvfrom_loop fd
-    (fun buf addr ->
-      let addr_s = Socket.Address.Inet.to_string addr in
+    (fun buf _addr ->
+      (*let addr_s = Socket.Address.Inet.to_string addr in*)
       let beacon = Iobuf.to_string buf |> Beacon.of_wire in
       let key = beacon.Beacon.ip_address in
       let my_port = beacon.Beacon.my_port in
@@ -339,8 +343,8 @@ let start_discovery_listener () =
 	  let data = { state with Pusher_state.beacon_time = Time.now (); beacon } in
 	  Hashtbl.set Pusher_state.known_pushers ~key ~data
 	| None ->
-	  printf "*** Discovered new Pixel Pusher: %s\n" addr_s;
-	  printf "%s\n" (Beacon.sexp_of_t beacon |> Sexp.to_string_hum ~indent:2);
+	  (*printf "*** Discovered new Pixel Pusher: %s\n" addr_s;
+	  printf "%s\n" (Beacon.sexp_of_t beacon |> Sexp.to_string_hum ~indent:2);*)
 	  let matrix = Array.init num_pixels ~f:(fun _ -> Color.black) in
 	  Hashtbl.add_exn Pusher_state.known_pushers ~key
 	    ~data:{ Pusher_state.beacon_time = Time.now ()
