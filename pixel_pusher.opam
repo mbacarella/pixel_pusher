@@ -11,7 +11,7 @@ bug-reports: "https://github.com/mbacarella/pixel_pusher/issues"
 dev-repo: "git+https://github.com/mbacarella/pixel_pusher.git"
 build: ["dune" "build" "-p" name "-j" jobs]
 depends: [
-  "async_udp"
-  "core"
-  "bitstring"
+  "async_udp"   {>= "v0.12.0"}
+  "core"        {>= "v0.12.0"}
+  "bitstring"   {>= "v3.1.1"}
 ]
