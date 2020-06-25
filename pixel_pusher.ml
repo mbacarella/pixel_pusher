@@ -352,7 +352,7 @@ let start_discovery_listener () =
 		  ; seq = 0
 		  ; matrix = matrix
 		  ; last_command = Time.epoch
-		  ; socket = Core.Unix.socket ~domain:Core.Unix.PF_INET ~kind:Core.Unix.SOCK_DGRAM ~protocol:0 };
+		  ; socket = Caml.Unix.socket Caml.Unix.PF_INET Caml.Unix.SOCK_DGRAM 0 };
 	  Pusher_state.update ())
 
 let start () =
